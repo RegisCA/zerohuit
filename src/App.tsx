@@ -20,7 +20,8 @@ function usePortrait(): boolean {
 }
 
 export default function App() {
-  const { game, totalMs, best, lastWasBest, onReveal, onFlag, restart } = useGame()
+  const { game, totalMs, undos, bestMs, lastWasBest, canUndo, penaltyTick, onReveal, onFlag, undo, restart } =
+    useGame()
   const [theme, setTheme] = useTheme()
   const [mode, setMode] = useState<TapMode>(() => {
     try {
@@ -30,7 +31,6 @@ export default function App() {
     }
   })
   const [pendingLevel, setPendingLevel] = useState<Level | null>(null)
-  const [cardOpen, setCardOpen] = useState(true)
   const portrait = usePortrait()
 
   useEffect(() => {
@@ -40,11 +40,6 @@ export default function App() {
       // ignore
     }
   }, [mode])
-
-  // Re-open the end card whenever a game finishes.
-  useEffect(() => {
-    if (game.status === 'won' || game.status === 'lost') setCardOpen(true)
-  }, [game.status])
 
   const requestNew = (level: Level) => {
     if (game.status === 'playing') setPendingLevel(level)
@@ -73,26 +68,50 @@ export default function App() {
           </div>
           <div className="stat" title="Time">
             <span className="stat__value">{formatTime(totalMs)}</span>
+            {penaltyTick > 0 && (
+              <span key={penaltyTick} className="penalty">
+                +15s
+              </span>
+            )}
           </div>
         </div>
 
         <div className="bar__group">
-          <div className="seg" role="group" aria-label="Tap action">
-            <button
-              type="button"
-              className={`seg__btn ${mode === 'reveal' ? 'seg__btn--on' : ''}`}
-              onClick={() => setMode('reveal')}
-            >
-              Open
-            </button>
-            <button
-              type="button"
-              className={`seg__btn ${mode === 'flag' ? 'seg__btn--on' : ''}`}
-              onClick={() => setMode('flag')}
-            >
-              <span className="mark mark--inline" /> Mark
-            </button>
-          </div>
+          <button type="button" className="btn btn--undo" onClick={undo} disabled={!canUndo} title="Undo (+15s)">
+            ↶ Undo
+          </button>
+
+          {over ? (
+            <div className={`result result--${game.status}`} role="status">
+              <span className="result__title">{game.status === 'won' ? 'Cleared' : 'Not this time'}</span>
+              {game.status === 'won' && lastWasBest && <span className="badge">Best</span>}
+              {game.status === 'won' && !lastWasBest && bestMs !== undefined && (
+                <span className="result__sub">best {formatTime(bestMs)}</span>
+              )}
+              {undos > 0 && (
+                <span className="result__sub">
+                  {undos} undo{undos > 1 ? 's' : ''}
+                </span>
+              )}
+            </div>
+          ) : (
+            <div className="seg" role="group" aria-label="Tap action">
+              <button
+                type="button"
+                className={`seg__btn ${mode === 'reveal' ? 'seg__btn--on' : ''}`}
+                onClick={() => setMode('reveal')}
+              >
+                Open
+              </button>
+              <button
+                type="button"
+                className={`seg__btn ${mode === 'flag' ? 'seg__btn--on' : ''}`}
+                onClick={() => setMode('flag')}
+              >
+                <span className="mark mark--inline" /> Mark
+              </button>
+            </div>
+          )}
 
           <div className="seg" role="group" aria-label="Difficulty">
             {(Object.keys(LEVEL_LABELS) as Level[]).map((l) => (
@@ -130,29 +149,6 @@ export default function App() {
 
       <main className="main">
         <Board game={game} mode={mode} transposed={transposed} onReveal={onReveal} onFlag={onFlag} />
-
-        {over && cardOpen && (
-          <div className="overlay" onClick={() => setCardOpen(false)}>
-            <div className="card" onClick={(e) => e.stopPropagation()}>
-              <h2>{game.status === 'won' ? 'Cleared' : 'Not this time'}</h2>
-              <p className="card__line">
-                {LEVEL_LABELS[game.level]} · {formatTime(totalMs)}
-                {game.status === 'won' && lastWasBest && <span className="badge">Best</span>}
-              </p>
-              {best[game.level] !== undefined && !(game.status === 'won' && lastWasBest) && (
-                <p className="card__sub">Best {formatTime(best[game.level]!)}</p>
-              )}
-              <div className="card__actions">
-                <button type="button" className="btn btn--ghost" onClick={() => setCardOpen(false)}>
-                  View board
-                </button>
-                <button type="button" className="btn btn--primary" onClick={() => restart(game.level)}>
-                  New game
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
         {pendingLevel && (
           <div className="overlay" onClick={() => setPendingLevel(null)}>

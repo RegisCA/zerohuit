@@ -8,7 +8,7 @@ export interface LevelSpec {
 
 export const LEVELS: Record<Level, LevelSpec> = {
   easy: { rows: 9, cols: 9, mines: 10 },
-  medium: { rows: 16, cols: 16, mines: 40 },
+  medium: { rows: 14, cols: 24, mines: 52 },
   hard: { rows: 16, cols: 30, mines: 99 },
 }
 
