@@ -1,0 +1,481 @@
+/* ---------------------------------------------------------------------- */
+/* Theme tokens                                                            */
+/* ---------------------------------------------------------------------- */
+
+:root {
+  --bg: #eef0f3;
+  --bg-elevated: #ffffff;
+  --text: #1c1d22;
+  --text-muted: #6b6d78;
+  --border: #d6d8de;
+
+  --accent: #2f6f8f;
+  --accent-text: #ffffff;
+
+  --hidden-bg: #c9ced8;
+  --hidden-hover: #bcc2ce;
+  --hidden-edge: #b0b6c2;
+  --open-bg: #fbfbfc;
+  --settled-bg: #e4e6ea;
+  --settled-text-opacity: 0.32;
+
+  --mark: #d9573b;
+  --mine: #2a2b31;
+  --exploded-bg: #f2b6a8;
+  --wrong: #8f919b;
+  --over-ring: #d9573b;
+
+  --n1: #2a64c9;
+  --n2: #2c8a4b;
+  --n3: #c9372c;
+  --n4: #6b3fb3;
+  --n5: #a1531b;
+  --n6: #157f86;
+  --n7: #3c3d44;
+  --n8: #7c7e88;
+
+  --shadow-lg: 0 20px 60px rgba(20, 20, 30, 0.28);
+  --radius: 8px;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #131318;
+    --bg-elevated: #1c1d24;
+    --text: #edeef2;
+    --text-muted: #9a9ca8;
+    --border: #33343d;
+
+    --accent: #5fa8cc;
+    --accent-text: #0e1418;
+
+    --hidden-bg: #3c3f4b;
+    --hidden-hover: #474a57;
+    --hidden-edge: #2f323c;
+    --open-bg: #262834;
+    --settled-bg: #17181d;
+    --settled-text-opacity: 0.3;
+
+    --mark: #f07a5c;
+    --mine: #e6e7ec;
+    --exploded-bg: #7a2e22;
+    --wrong: #6a6c78;
+    --over-ring: #f07a5c;
+
+    --n1: #6fa0ff;
+    --n2: #5fcf86;
+    --n3: #ff7a6b;
+    --n4: #b996ff;
+    --n5: #f0a35e;
+    --n6: #4fd1d9;
+    --n7: #d6d7de;
+    --n8: #9a9ca8;
+
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #131318;
+  --bg-elevated: #1c1d24;
+  --text: #edeef2;
+  --text-muted: #9a9ca8;
+  --border: #33343d;
+
+  --accent: #5fa8cc;
+  --accent-text: #0e1418;
+
+  --hidden-bg: #3c3f4b;
+  --hidden-hover: #474a57;
+  --hidden-edge: #2f323c;
+  --open-bg: #262834;
+  --settled-bg: #17181d;
+  --settled-text-opacity: 0.3;
+
+  --mark: #f07a5c;
+  --mine: #e6e7ec;
+  --exploded-bg: #7a2e22;
+  --wrong: #6a6c78;
+  --over-ring: #f07a5c;
+
+  --n1: #6fa0ff;
+  --n2: #5fcf86;
+  --n3: #ff7a6b;
+  --n4: #b996ff;
+  --n5: #f0a35e;
+  --n6: #4fd1d9;
+  --n7: #d6d7de;
+  --n8: #9a9ca8;
+
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Base                                                                    */
+/* ---------------------------------------------------------------------- */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.app {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Top bar                                                                 */
+/* ---------------------------------------------------------------------- */
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 8px 14px;
+}
+
+.bar__group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wordmark {
+  margin: 0 6px 0 0;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 64px;
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+}
+
+.stat__value {
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat__value--neg {
+  color: var(--mark);
+}
+
+.seg {
+  display: flex;
+  padding: 3px;
+  gap: 2px;
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+}
+
+.seg__btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.seg__btn--icon {
+  padding: 0 9px;
+  font-size: 15px;
+}
+
+.seg__btn--on {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.btn {
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.btn--ghost {
+  background: transparent;
+}
+
+/* The "mark" (flag) glyph: a simple solid diamond. */
+.mark {
+  display: block;
+  width: 42%;
+  aspect-ratio: 1;
+  background: var(--mark);
+  border-radius: 18%;
+  transform: rotate(45deg);
+}
+
+.mark--inline {
+  width: 10px;
+}
+
+.seg__btn--on .mark--inline {
+  background: currentColor;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Board                                                                   */
+/* ---------------------------------------------------------------------- */
+
+.main {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.board-area {
+  flex: 1;
+  min-height: 0;
+  padding: 4px 14px 14px;
+  container-type: size;
+  display: grid;
+  place-items: center;
+}
+
+.board {
+  --cell: min(100cqw / var(--cols), 100cqh / var(--rows));
+  --gap: max(1px, calc(var(--cell) * 0.06));
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  grid-template-rows: repeat(var(--rows), 1fr);
+  gap: var(--gap);
+  width: calc(var(--cell) * var(--cols));
+  height: calc(var(--cell) * var(--rows));
+  touch-action: manipulation;
+}
+
+.cell {
+  display: grid;
+  place-items: center;
+  border-radius: calc(var(--cell) * 0.14);
+  font-size: calc(var(--cell) * 0.56);
+  font-weight: 750;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.cell--hidden {
+  background: var(--hidden-bg);
+  box-shadow: inset 0 calc(var(--cell) * -0.06) 0 var(--hidden-edge);
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .board--playing .cell--hidden:hover,
+  .board--ready .cell--hidden:hover {
+    background: var(--hidden-hover);
+  }
+}
+
+.cell--flag {
+  background: var(--hidden-bg);
+  box-shadow: inset 0 calc(var(--cell) * -0.06) 0 var(--hidden-edge);
+}
+
+.cell--open {
+  background: var(--open-bg);
+}
+
+.cell--open.n0 {
+  background: var(--settled-bg);
+}
+
+.n1 { color: var(--n1); }
+.n2 { color: var(--n2); }
+.n3 { color: var(--n3); }
+.n4 { color: var(--n4); }
+.n5 { color: var(--n5); }
+.n6 { color: var(--n6); }
+.n7 { color: var(--n7); }
+.n8 { color: var(--n8); }
+
+/* Areas that no longer need attention fade back into the page. */
+.cell--open.cell--settled {
+  background: var(--settled-bg);
+}
+
+.cell--settled .num {
+  opacity: var(--settled-text-opacity);
+}
+
+.cell--flag.cell--settled {
+  background: var(--settled-bg);
+  box-shadow: none;
+}
+
+.cell--flag.cell--settled .mark {
+  opacity: 0.4;
+}
+
+.cell--over {
+  box-shadow: inset 0 0 0 max(2px, calc(var(--cell) * 0.07)) var(--over-ring);
+}
+
+/* End of game */
+.cell--mine {
+  background: var(--open-bg);
+}
+
+.cell--exploded {
+  background: var(--exploded-bg);
+}
+
+.dot {
+  width: 40%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--mine);
+}
+
+.cell--wrong .mark {
+  background: var(--wrong);
+}
+
+.board--won .cell--flag .mark {
+  opacity: 0.55;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Overlay card                                                            */
+/* ---------------------------------------------------------------------- */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--bg) 35%, transparent);
+  animation: fade 0.2s ease;
+}
+
+.card {
+  min-width: 300px;
+  padding: 22px 24px 18px;
+  border-radius: 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.card h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.card__line {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 17px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.card__sub {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.card__actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Narrow screens: hide the wordmark to keep the bar on one line. */
+@media (max-width: 760px) {
+  .wordmark {
+    display: none;
+  }
+  .seg__btn {
+    padding: 0 9px;
+  }
+}
