@@ -479,3 +479,82 @@ button {
     padding: 0 9px;
   }
 }
+
+/* ---------------------------------------------------------------------- */
+/* Undo, penalty flash, end-of-game result                                 */
+/* ---------------------------------------------------------------------- */
+
+.stat {
+  position: relative;
+}
+
+.penalty {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  margin-top: 4px;
+  transform: translateX(-50%);
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--mark);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  animation: penalty 1.6s ease-out;
+  z-index: 2;
+}
+
+@keyframes penalty {
+  0%,
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.btn--undo {
+  min-height: 42px;
+  padding: 0 14px;
+  font-size: 14px;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  animation: fade 0.25s ease;
+}
+
+.result__title {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.result--won .result__title {
+  color: var(--n2);
+}
+
+.result--lost .result__title {
+  color: var(--mark);
+}
+
+.result__sub {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}

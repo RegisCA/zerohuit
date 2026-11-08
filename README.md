@@ -32,7 +32,13 @@ Chrome or Silk, "Add to Home Screen", and it works fully offline.
   neighbours (chording).
 - **The first tap is always safe** and always opens an area: mines are placed
   after it, away from it and its neighbours.
-- **Easy 9×9 · 10**, **Medium 16×16 · 40**, **Hard 30×16 · 99**.
+- **Undo** takes back the last move, including the one that hit a mine, and
+  adds 15 seconds to the clock. The result shows how many undos you used.
+  Undo history is kept in memory, so it starts fresh after a reload.
+- **When a game ends**, the result shows in the top bar and the board stays
+  fully visible.
+- **Easy 9×9 · 10**, **Medium 24×14 · 52**, **Hard 30×16 · 99**. Medium and
+  Hard are wide so they fill a landscape screen.
 
 ## Reading the board
 
